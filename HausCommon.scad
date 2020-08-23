@@ -36,22 +36,22 @@ module outer_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
     }
 }
 
-module inner_wall(width, thickness, shift_x = 0.0, shift_y = 0.0) {
+module inner_wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
     color("White") translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS,0])
-        wall(width, thickness, shift_x, shift_y) {
+        wall(width, thickness, shift_x, shift_y, height) {
             children();    
         }
     
 }
 
-module thick_inner_wall(width, shift_x = 0.0, shift_y = 0.0) {
-    inner_wall(width, 0.175, shift_x, shift_y) {
+module thick_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
+    inner_wall(width, 0.175, shift_x, shift_y, height) {
         children();
     }
 }
 
-module thin_inner_wall(width, shift_x = 0.0, shift_y = 0.0) {
-    inner_wall(width, 0.115, shift_x, shift_y) {
+module thin_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
+    inner_wall(width, 0.115, shift_x, shift_y, height) {
         children();
     }
 }
