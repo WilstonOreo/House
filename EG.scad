@@ -1,7 +1,7 @@
 include <HausCommon.scad>;
 
 // Südseite
-outer_wall(10.49, 0) {
+part("outer_wall") outer_wall(10.49, 0) {
     // Fenster Flur
     window(1.13, 0.86, 1.42);
     
@@ -40,7 +40,7 @@ horizontal() {
     thin_inner_wall(2.64, 5.07 + 0.175, 3.135);
     thin_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115);
     thick_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615) {
-        door(1.4, 0.63);
+        door(1.2, 0.63);
     }
     
     thick_inner_wall(2.76, 0.0, 2.135);

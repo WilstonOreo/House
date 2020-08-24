@@ -63,8 +63,12 @@ module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
 }
 
 
-//function horizontal(f) = mirror([1,0,0]) rotate([0,0,90]);
-//}
+module part(name) {
+    if (is_undef($PART) || $PART == name) {
+        children();
+    }
+}
+
 
 module horizontal() {
     Mvert = [ [ 0  , 1  , 0  , 0   ],
