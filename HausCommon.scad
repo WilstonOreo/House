@@ -69,6 +69,12 @@ module part(name) {
     }
 }
 
+module colored_part(name, part_color) {
+    if (is_undef($PART) || $PART == name) {
+        color(part_color) children();
+    }
+}
+
 
 module horizontal() {
     Mvert = [ [ 0  , 1  , 0  , 0   ],
