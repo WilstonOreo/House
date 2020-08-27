@@ -1,16 +1,39 @@
 include <HausCommon.scad>;
 
 // Südseite
-part("outer_wall") outer_wall(10.49, 0) {
-    // Fenster Flur
-    window(1.13, 0.86, 1.42);
-    
-    // Fenster Arbeitszimmer
-    window(1.51, 4.115, 1.42);
-    
-    // Fenster Wohnzimmer
-    window(1.01, 4.115 + 1.51 + 2.74, 1.42);
+group() {
+    windows = [
+        // Width, Height, Shift, BRH, Blind
+        [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0],
+        [ 1.51, 1.42, 4.115, DEFAULT_BRH, 0.0],
+        [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3]
+    ];
+
+    part("outer_wall") outer_wall(10.49, 0) {
+        window_slots(windows);
+    }
+
+    mirror([0, 1, 0])
+        translate([0,- OUTER_WALL_THICKNESS,0])
+            window_frames(windows);
 }
+
+
+// Nordseite
+outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
+    // Fenster HWR
+    window(1.13, 1.49, 0.635, 1.63);
+    
+    // Fenster Gäste-WC
+    window(0.76, 1.49 + 1.13 + 1.24, 0.635, 1.63);
+    
+    // Fenster Vorratskammer
+    window(0.88, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 0.635, 1.63);
+    
+    // Küche Festverglasung
+    window(1.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.35, 1.0);
+}
+
 
 thin_inner_wall(3.765 + 0.175*2, 2.135, 2.76) {
     door(1.8);
@@ -49,20 +72,7 @@ horizontal() {
 
 
 
-// Nordseite
-outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
-    // Fenster HWR
-    window(1.13, 1.49, 0.635, 1.63);
-    
-    // Fenster Gäste-WC
-    window(0.76, 1.49 + 1.13 + 1.24, 0.635, 1.63);
-    
-    // Fenster Vorratskammer
-    window(0.88, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 0.635, 1.63);
-    
-    // Küche Festverglasung
-    window(1.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.35, 1.0);
-}
+
 
 // Flur
 color("SaddleBrown") group() {

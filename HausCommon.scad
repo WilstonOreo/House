@@ -7,7 +7,6 @@ THICK_INNER_WALL_THICKNESS = 0.175;
 DEFAULT_BRH = 0.84;
 FLOOR_HEIGHT = 0.19;
 
-
 EDGING_WIDTH = 0.1;
 EDGING_SUNK = 0.03;
 
@@ -141,6 +140,20 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
             }
         }
         
+    }
+}
+
+module window_frames(windows) {
+    for (w = windows) {
+        translate([w[2],0,w[3]+ FLOOR_HEIGHT])
+            window_frame(width = w[0], height= w[1], thickness = OUTER_WALL_THICKNESS, blind = w[4]);
+        }
+}
+
+module window_slots(windows) {
+    for (w = windows) {
+        e = EDGING_WIDTH;
+        window(width = w[0] + e*2, height= w[1] + e*2, shift = w[2]-e, brh = w[3]-e);
     }
 }
 
