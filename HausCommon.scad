@@ -3,6 +3,8 @@ OUTER_WALL_THICKNESS = 0.365;
 WALL_HEIGHT = 2.95;
 THIN_INNER_WALL_THICKNESS = 0.115;
 THICK_INNER_WALL_THICKNESS = 0.175;
+DEFAULT_DOOR_HEIGHT = 2.01;
+DEFAULT_DOOR_WIDTH = 0.885;
 
 DEFAULT_BRH = 0.84;
 FLOOR_HEIGHT = 0.19;
@@ -27,7 +29,7 @@ module window(width, shift, height = 0.54, brh = DEFAULT_BRH) {
     slot(width, shift, height, FLOOR_HEIGHT + brh); 
 }
 
-module door(shift, width = 0.885, height = 2.01) {
+module door(shift, width = DEFAULT_DOOR_WIDTH, height = DEFAULT_DOOR_HEIGHT) {
     slot(width, shift, height, FLOOR_HEIGHT);
 }
 
@@ -48,7 +50,7 @@ module outer_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
 }
 
 module inner_wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
-    color("White") translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS,0])
+    color("White") //translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS,0])
         wall(width, thickness, shift_x, shift_y, height) {
             children();    
         }
@@ -83,8 +85,8 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
     colored_part("EDGING", "White") difference() {
         e = EDGING_WIDTH;
         
-        translate([-e,EDGING_SUNK,-e])
-            cube([width + e * 2, thickness - EDGING_SUNK*2, height + e * 2]);
+        translate([-e,0,-e])
+            cube([width + e * 2, thickness - EDGING_SUNK, height + e * 2]);
         translate([0,-thickness,0])
         cube([width, thickness*3, height]);
     }
@@ -107,7 +109,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
                 cube([width - (e + inset) * 2, thickness*3, height - (e + inset) * 2]);
         }
         
-        if (subdivisions >= 2) {
+        if (!is_undef(subdivisions) && subdivisions >= 2) {
             for (i = [1:subdivisions-1]) {
                 inset = WINDOWFRAME_OFFSET;
                 e = WINDOWFRAME_WIDTH;
@@ -117,8 +119,10 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
         }
     }
     
-    colored_part("WINDOWSILL", "Black") {
-        translate([0, thickness/2,-0.02]) rotate([-6,0,0]) cube([width, thickness*0.5, 0.06]);
+    if (height > 0.8 && height <= 2.0) {
+        colored_part("WINDOWSILL", "Black") {
+            translate([0, thickness/2,-0.02]) rotate([-6,0,0]) cube([width, thickness*0.5, 0.06]);
+        }
     }
     
     colored_part("WINDOWGLASS", [0.3,0.3,0.3,0.2]) {
@@ -126,6 +130,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
                 cube([width, 0.005, height]);
     }
     
+    if (!is_undef(blind)) {
     colored_part("BLIND", "White") {
         blindcount = floor(blind*height/BLIND_WIDTH);
         for (i = [0:blindcount]) {
@@ -139,14 +144,14 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
                 translate([0,0.005, -BLIND_WIDTH*0.3]) cube([width, 0.025, BLIND_WIDTH*0.4]);
             }
         }
-        
+    }
     }
 }
 
 module window_frames(windows) {
     for (w = windows) {
         translate([w[2],0,w[3]+ FLOOR_HEIGHT])
-            window_frame(width = w[0], height= w[1], thickness = OUTER_WALL_THICKNESS, blind = w[4]);
+            window_frame(width = w[0], height= w[1], thickness = OUTER_WALL_THICKNESS, blind = w[4], subdivisions = w[5]);
         }
 }
 
@@ -181,18 +186,24 @@ module door_handle() {
         
 module door_frame(width, height, thickness, angle = 0.0) {
     door_thickness = 0.05;
-    
+    if (is_undef(height)) {
+        height = DEFAULT_DOOR_HEIGHT;
+    }
+    if (is_undef(angle)) {
+        angle = 0.0;
+    }
+
     colored_part("DOOR_FRAME", "White") difference() {
         e = DOOR_FRAME_WIDTH;
         
-        translate([-e,-e*0.3,0])
+        translate([-e,-e*0.15,0])
             cube([width + e * 2, thickness + e*0.3, height + e * 1.2]);
         translate([0,-thickness, e * 0.2])
         cube([width, thickness*3, height]);
     }
     
     part("DOOR_LEAF") {
-        mirror([1,0,0]) translate([-width, - 0.03,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])    { 
+        mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])    { 
             color("White") cube([width, 0.03, height + DOOR_FRAME_WIDTH*0.2]);
             
             colored_part("DOOR_HANDLE", "Gray") {
@@ -210,6 +221,21 @@ module door_frame(width, height, thickness, angle = 0.0) {
         translate([width,-0.05,height - 0.3]) cylinder(r = 0.015, h = 0.3, $fn = 32, center = true);
     }
 }
+
+module door_frames(doors) {
+    for (d = doors) {
+        translate([d[1],0,FLOOR_HEIGHT])
+            door_frame(width = d[0], height = d[3], thickness = d[2], angle = d[4]);
+        }
+}
+
+module door_slots(doors) {
+    for (d = doors) {
+        e = EDGING_WIDTH;
+        door(width = d[0], height= d[3], shift = d[1]);
+    }
+}
+
 
 
 

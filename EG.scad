@@ -1,12 +1,14 @@
 include <HausCommon.scad>;
 
+// Außenwände und Fenster
+group() {
 // Südseite
 group() {
     windows = [
         // Width, Height, Shift, BRH, Blind
-        [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0],
-        [ 1.51, 1.42, 4.115, DEFAULT_BRH, 0.0],
-        [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3]
+        [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0], // Flur
+        [ 1.51, 1.42, 4.115, DEFAULT_BRH, 0.0], // Arbeitszimmer
+        [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3] // Wohnzimmer
     ];
 
     part("outer_wall") outer_wall(10.49, 0) {
@@ -18,57 +20,104 @@ group() {
             window_frames(windows);
 }
 
-
 // Nordseite
-outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
-    // Fenster HWR
-    window(1.13, 1.49, 0.635, 1.63);
-    
-    // Fenster Gäste-WC
-    window(0.76, 1.49 + 1.13 + 1.24, 0.635, 1.63);
-    
-    // Fenster Vorratskammer
-    window(0.88, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 0.635, 1.63);
-    
-    // Küche Festverglasung
-    window(1.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.35, 1.0);
+group() {
+    windows = [
+        // Width, Height, Shift, BRH, Blind
+        [ 1.13, 0.635, 1.49, 1.63 ], // HWR
+        [ 0.76, 0.635, 1.49 + 1.13 + 1.24, 1.63 ], // Gäste-WC
+        [ 1.13, 0.635, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 1.63 ], // Vorratskammer
+        [ 1.13, 0.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.95 ] // Küche Festverglasung
+    ];
+
+    part("outer_wall") outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
+        window_slots(windows);
+    }
+
+    translate([0, 8.615 - OUTER_WALL_THICKNESS,0])
+        window_frames(windows);
 }
 
-
-thin_inner_wall(3.765 + 0.175*2, 2.135, 2.76) {
-    door(1.8);
-
-}
-thick_inner_wall(2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07) {
-    door(2.0);
-    door(3.50, 0.76);
-
-}
-
-horizontal() {
-    // Westseite
+// Westseite
+group() horizontal() {
     outer_wall(8.61, 0, 0) {
         door(0.76, 1.0);
-        window(0.885, 3.74, 2.26, 3.16);
     }
+}
+
+// Ostseite
+group() horizontal() {
+    windows = [
+        // Width, Height, Shift, BRH, Blind, Subdivisions
+        [ 1.51, 1.42, 1.11, DEFAULT_BRH, 0.0 ], // Wohnzimmer
+        [ 3.01, 2.26, 1.11 + 1.51 + 1.865, 0.065, 0, 2]
+    ];
 
     // Ostseite
     outer_wall(8.61, 0, 10.125) {
-        // Wohnzimmerfenster
-        window(1.51, 1.11, 1.42);
-        // Terrassentür
-        door(1.11 + 1.51 + 1.865, 3.01, 2.26);
+        window_slots(windows);
     }
 
-    thin_inner_wall(2.64, 5.07 + 0.175, 3.135);
-    thin_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115);
-    thick_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615) {
-        door(1.2, 0.63);
-    }
-    
-    thick_inner_wall(2.76, 0.0, 2.135);
-    thick_inner_wall(2.76, 0.0, 2.135 + 3.765 + 0.175);
+    translate([0, 10.125,0])
+    window_frames(windows);
 }
+
+}
+
+
+
+
+// Innenwände
+group() translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0]) {
+    doors = [
+        // Width, Shift, Thickness, Height, Angle 
+        [ 0.885, 1.8, THIN_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
+        [ 0.885, 2.0, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
+        [ 0.76, 3.5, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
+
+
+    ];
+
+    translate([2.135,  2.76]) {
+        thin_inner_wall(3.765 + 0.175*2) {
+            door(1.8);
+        }
+
+        door_frames([doors[0]]);
+    }
+
+    translate([0.0,  5.07]) mirror([0,1,0])
+            translate([0,-THICK_INNER_WALL_THICKNESS,0]) {
+        thick_inner_wall(2.135 + 0.175 + 3.765 + 0.175) {
+            door_slots([doors[1], doors[2]]);
+        }
+
+        
+        door_frames([doors[1], doors[2]]);
+    }
+
+
+
+    
+//        mirror([0,1,0]) translate([0,-0.10,0])
+
+
+    
+
+    horizontal() {
+        thin_inner_wall(2.64, 5.07 + 0.175, 3.135);
+        thin_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115);
+        
+        thick_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615) {
+            door(1.2, 0.63);
+        }
+
+        thick_inner_wall(2.76, 0.0, 2.135);
+        thick_inner_wall(2.76, 0.0, 2.135 + 3.765 + 0.175);
+    }
+}
+
+
 
 
 
