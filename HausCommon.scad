@@ -19,6 +19,23 @@ DOOR_FRAME_WIDTH = 0.08;
 
 BLIND_WIDTH = 0.03;
 
+PARTS = [
+    [ "INNER_WALL", "White" ],
+    [ "OUTER_WALL", "Gray" ],
+    [ "PARQUETRY", "SaddleBrown" ],
+    [ "TILES", "White" ],
+    [ "KITCHEN_TILES", "Orange" ],
+    [ "DOOR_LEAF", "White" ], 
+    [ "DOOR_FRAME", "White" ],
+    [ "DOOR_JOINT", "Gray" ],
+    [ "WINDOW_SILL", "DimGray" ],
+    [ "WINDOW_EDGING", "White" ],
+    [ "WINDOW_FRAME", "DimGray" ],
+    [ "WINDOW_GLASS", [ 0.5, 0.5, 0.5, 0.3 ] ],
+    [ "WINDOW_BLIND", "White" ]
+];
+
+
 
 module slot(width, shift, height, z) {
     translate([shift, -OUTER_WALL_THICKNESS*0.05, z])
@@ -111,8 +128,7 @@ module inner_walls(walls) {
 
 
 module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
-    
-    colored_part("INNERWALL", "WHITE") {
+    part("INNER_WALL") {
         difference() {
         e = EDGING_SUNK / 10.0;
         translate([0,0,0])
@@ -122,7 +138,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
         }
     }
     
-    colored_part("EDGING", "White") difference() {
+    part("WINDOW_EDGING") difference() {
         e = EDGING_WIDTH;
         
         translate([-e,0,-e])
@@ -131,7 +147,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
         cube([width, thickness*3, height]);
     }
     
-    colored_part("WINDOWFRAME", "DimGray") { 
+    part("WINDOW_FRAME") { 
         difference() {
             e = WINDOWFRAME_WIDTH;
             translate([0,thickness*0.5,0])
@@ -160,18 +176,18 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
     }
     
     if (height > 0.8 && height <= 2.0) {
-        colored_part("WINDOWSILL", "Black") {
+        part("WINDOW_SILL") {
             translate([0, thickness/2,-0.02]) rotate([-6,0,0]) cube([width, thickness*0.5, 0.06]);
         }
     }
     
-    colored_part("WINDOWGLASS", [0.3,0.3,0.3,0.2]) {
+    part("WINDOW_GLASS") {
         translate([0,thickness*0.5 - 0.03,0])
                 cube([width, 0.005, height]);
     }
     
     if (!is_undef(blind)) {
-    colored_part("BLIND", "White") {
+    part("WINDOW_BLIND") {
         blindcount = floor(blind*height/BLIND_WIDTH);
         for (i = [0:blindcount]) {
             translate([0,thickness*0.75, height - i*BLIND_WIDTH - BLIND_WIDTH]) {
@@ -233,7 +249,7 @@ module door_frame(width, height, thickness, angle = 0.0) {
         angle = 0.0;
     }
 
-    colored_part("DOOR_FRAME", "White") difference() {
+    part("DOOR_FRAME") difference() {
         e = DOOR_FRAME_WIDTH;
         
         translate([-e,-e*0.15,0])
@@ -256,7 +272,7 @@ module door_frame(width, height, thickness, angle = 0.0) {
         }
     }
     
-    colored_part("DOOR_JOINT", "Gray") {
+    part("DOOR_JOINT") {
         translate([width,-0.05,0.3]) cylinder(r = 0.015, h = 0.3, $fn = 32, center = true);
         translate([width,-0.05,height - 0.3]) cylinder(r = 0.015, h = 0.3, $fn = 32, center = true);
     }
@@ -285,17 +301,26 @@ module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
     }
 }
 
+module rooms(rs) {
+
+    for (r = rs) {
+        part(name = r[0]) {
+            for (g = r[1]) {
+                ground(width = g[0], height = g[1], shift_x = g[2], shift_y = g[3]);
+            }
+        }
+    }
+}
+
 
 module part(name) {
     if (is_undef($PART) || $PART == name) {
-        children();
-    } else {
-        *children();
+        color([for (p = PARTS) if (p[0] == name) p[1] ][0]) children();
     }
 }
 
 module colored_part(name, part_color) {
-    color(part_color) part(name) children();
+     part(name) children();
 }
 
 
