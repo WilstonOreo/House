@@ -65,56 +65,26 @@ group() horizontal() {
 }
 
 
-
-
 // Innenwände
-group() translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0]) {
+group() {
     doors = [
         // Width, Shift, Thickness, Height, Angle 
         [ 0.885, 1.8, THIN_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
         [ 0.885, 2.0, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
         [ 0.76, 3.5, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
-
-
+        [ 0.63, 1.2, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Vorratskammer
     ];
 
-    translate([2.135,  2.76]) {
-        thin_inner_wall(3.765 + 0.175*2) {
-            door(1.8);
-        }
-
-        door_frames([doors[0]]);
-    }
-
-    translate([0.0,  5.07]) mirror([0,1,0])
-            translate([0,-THICK_INNER_WALL_THICKNESS,0]) {
-        thick_inner_wall(2.135 + 0.175 + 3.765 + 0.175) {
-            door_slots([doors[1], doors[2]]);
-        }
-
-        
-        door_frames([doors[1], doors[2]]);
-    }
-
-
-
-    
-//        mirror([0,1,0]) translate([0,-0.10,0])
-
-
-    
-
-    horizontal() {
-        thin_inner_wall(2.64, 5.07 + 0.175, 3.135);
-        thin_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115);
-        
-        thick_inner_wall(2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615) {
-            door(1.2, 0.63);
-        }
-
-        thick_inner_wall(2.76, 0.0, 2.135);
-        thick_inner_wall(2.76, 0.0, 2.135 + 3.765 + 0.175);
-    }
+    inner_walls([ 
+        // Alignment, Thickness, Width, Shift X, Shift Y, List of doors
+        ["", THIN_INNER_WALL_THICKNESS, 3.765 + 0.175 * 2, 2.135, 2.76, [doors[0]]],
+        ["v", THICK_INNER_WALL_THICKNESS, 2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07 + THICK_INNER_WALL_THICKNESS, [doors[1], doors[2]] ],
+        ["h", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135],
+        ["h", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115],
+        ["h", THICK_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615, [doors[3]] ],
+        ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135],
+        ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135 + 3.765 + 0.175],
+    ]);
 }
 
 

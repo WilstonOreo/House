@@ -49,12 +49,11 @@ module outer_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
     }
 }
 
-module inner_wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
-    color("White") //translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS,0])
-        wall(width, thickness, shift_x, shift_y, height) {
-            children();    
-        }
-    
+module inner_wall(width, thickness, height = WALL_HEIGHT) {
+    colored_part("INNER_WALL", "White") difference() {
+        cube([width, thickness, height]);
+        children();
+    }
 }
 
 module thick_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
@@ -66,6 +65,47 @@ module thick_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGH
 module thin_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
     inner_wall(width, 0.115, shift_x, shift_y, height) {
         children();
+    }
+}
+
+module align(alignment, shift_x, shift_y) {
+    if (alignment == "") {
+       Mvert = [ [ 1  , 0  , 0  , shift_x   ],
+                 [ 0  , 1  , 0  , shift_y   ],
+                 [ 0  , 0  , 1  , 0   ],
+            [          0  , 0  , 0  , 1   ] ] ;
+          multmatrix(Mvert) children();
+    }
+
+    if (alignment == "h") {
+        Mvert = [ [ 0  , 1  , 0  , shift_y   ],
+                  [ 1  , 0  , 0  , shift_x   ],
+                  [ 0  , 0  , 1  , 0   ],
+                  [ 0  , 0  , 0  , 1   ] ] ;              
+        multmatrix(Mvert) children();
+    } 
+
+    if (alignment == "v") {
+        Mvert = [ [ 1  , 0  , 0  , shift_x ],
+                  [ 0  , -1  , 0  , shift_y   ],
+                  [ 0  , 0  , 1  , 0   ],
+                  [ 0  , 0  , 0  , 1   ] ] ;
+        multmatrix(Mvert) children();
+    }
+} 
+
+
+module inner_walls(walls) {
+    translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0]) {
+        for (w = walls) {
+            align(alignment = w[0], shift_x = w[3], shift_y = w[4]) {
+                inner_wall(w[2], thickness = w[1], height = is_undef(w[6]) ? WALL_HEIGHT : w[6]) {
+                    door_slots(doors = w[5]);
+                }
+
+                door_frames(doors = w[5]);
+            }
+        }
     }
 }
 
