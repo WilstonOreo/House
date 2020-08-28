@@ -1,5 +1,28 @@
 include <HausCommon.scad>;
 
+/*
+windows = [
+    // Width, Height, Shift, BRH, Blind
+    [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0], // Flur
+    [ 1.51, 1.42, 4.115, DEFAULT_BRH, 0.0], // Arbeitszimmer
+    [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3], // Wohnzimmer
+    [ 1.13, 0.635, 1.49, 1.63 ], // HWR
+    [ 0.76, 0.635, 1.49 + 1.13 + 1.24, 1.63 ], // Gäste-WC
+    [ 1.13, 0.635, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 1.63 ], // Vorratskammer
+    [ 1.13, 0.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.95 ], // Küche Festverglasung
+    [ 1.51, 1.42, 1.11, DEFAULT_BRH, 0.0 ], // Wohnzimmer
+    [ 3.01, 2.26, 1.11 + 1.51 + 1.865, 0.065, 0, 2] // Terrassentür
+];
+
+outer_walls([
+    [ "", 10.49, 0.0, 0.0 ],
+    [ "v", 10.49, 0, 8.615 - OUTER_WALL_THICKNESS],
+    [ "h", 8.61, 0, 0 ],
+    [ "vh", 8.61, 0, 10.125]
+]);
+*/
+
+
 // Außenwände und Fenster
 group() {
 // Südseite
@@ -11,7 +34,7 @@ group() {
         [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3] // Wohnzimmer
     ];
 
-    part("outer_wall") outer_wall(10.49, 0) {
+    outer_wall(10.49, 0) {
         window_slots(windows);
     }
 
@@ -30,7 +53,7 @@ group() {
         [ 1.13, 0.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.95 ] // Küche Festverglasung
     ];
 
-    part("outer_wall") outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
+    outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
         window_slots(windows);
     }
 

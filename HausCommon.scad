@@ -67,7 +67,7 @@ module outer_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
 }
 
 module inner_wall(width, thickness, height = WALL_HEIGHT) {
-    colored_part("INNER_WALL", "White") difference() {
+    part("INNER_WALL") difference() {
         cube([width, thickness, height]);
         children();
     }
@@ -262,7 +262,7 @@ module door_frame(width, height, thickness, angle = 0.0) {
         mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])    { 
             color("White") cube([width, 0.03, height + DOOR_FRAME_WIDTH*0.2]);
             
-            colored_part("DOOR_HANDLE", "Gray") {
+            part("DOOR_HANDLE") {
                 translate([width - 0.08, - door_thickness * 0.4, height*0.5]) {
         
                 translate([0,  door_thickness * 1.2,0]) mirror([-1,1,0]) door_handle();
@@ -293,8 +293,6 @@ module door_slots(doors) {
 }
 
 
-
-
 module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
     translate([OUTER_WALL_THICKNESS + shift_x, OUTER_WALL_THICKNESS + shift_y,0]) {
         cube([width, height, FLOOR_HEIGHT]);
@@ -302,7 +300,6 @@ module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
 }
 
 module rooms(rs) {
-
     for (r = rs) {
         part(name = r[0]) {
             for (g = r[1]) {
@@ -318,13 +315,6 @@ module part(name) {
         color([for (p = PARTS) if (p[0] == name) p[1] ][0]) children();
     }
 }
-
-module colored_part(name, part_color) {
-     part(name) children();
-}
-
-
-
 
 module horizontal() {
     Mvert = [ [ 0  , 1  , 0  , 0   ],
