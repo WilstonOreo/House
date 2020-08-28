@@ -126,6 +126,17 @@ module inner_walls(walls) {
     }
 }
 
+module outer_walls(walls) {
+    for (w = walls) {
+        align(alignment = w[0], shift_x = w[2], shift_y = w[3]) {
+            outer_wall(w[1],height = is_undef(w[5]) ? WALL_HEIGHT : w[6]) {
+                window_slots(windows= w[4]);
+            }
+            window_frames(windows = w[4]);
+        }
+    }
+}
+
 
 module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
     part("INNER_WALL") {
@@ -138,6 +149,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
         }
     }
     
+    if (height > 1.0) {
     part("WINDOW_EDGING") difference() {
         e = EDGING_WIDTH;
         
@@ -145,6 +157,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
             cube([width + e * 2, thickness - EDGING_SUNK, height + e * 2]);
         translate([0,-thickness,0])
         cube([width, thickness*3, height]);
+    }
     }
     
     part("WINDOW_FRAME") { 
@@ -170,7 +183,7 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
                 inset = WINDOWFRAME_OFFSET;
                 e = WINDOWFRAME_WIDTH;
                 translate([inset+ i * (width - inset*2) / subdivisions - e / 4,thickness*0.5 - 0.01,inset])
-                cube([e*0.5, 0.02, height - (e) * 2]);
+                cube([e*0.5, 0.02, height - e * 2]);
             }
         }
     }
@@ -206,14 +219,15 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
 
 module window_frames(windows) {
     for (w = windows) {
-        translate([w[2],0,w[3]+ FLOOR_HEIGHT])
+        translate([w[2],OUTER_WALL_THICKNESS,w[3]+ FLOOR_HEIGHT])
+            mirror([0,1,0])
             window_frame(width = w[0], height= w[1], thickness = OUTER_WALL_THICKNESS, blind = w[4], subdivisions = w[5]);
         }
 }
 
 module window_slots(windows) {
     for (w = windows) {
-        e = EDGING_WIDTH;
+        e = w[1] > 1.0 ? EDGING_WIDTH : 0.0;
         window(width = w[0] + e*2, height= w[1] + e*2, shift = w[2]-e, brh = w[3]-e);
     }
 }

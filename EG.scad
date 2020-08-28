@@ -1,6 +1,6 @@
 include <HausCommon.scad>;
 
-/*
+
 windows = [
     // Width, Height, Shift, BRH, Blind
     [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0], // Flur
@@ -15,51 +15,20 @@ windows = [
 ];
 
 outer_walls([
-    [ "", 10.49, 0.0, 0.0 ],
-    [ "v", 10.49, 0, 8.615 - OUTER_WALL_THICKNESS],
+    // Südseite
+    [ "", 10.49, 0.0, 0.0, [for (i = [0:2]) windows[i]]],
+    // Nordseite
+    [ "v", 10.49, 0, 8.615, [for (i = [3:6]) windows[i]]],
+    // Westseite
     [ "h", 8.61, 0, 0 ],
-    [ "vh", 8.61, 0, 10.125]
+    // Ostseite
+    [ "h", 8.61, 0, 10.125, [for (i = [7:8]) windows[i]]]
 ]);
-*/
 
+
+/*
 
 // Außenwände und Fenster
-group() {
-// Südseite
-group() {
-    windows = [
-        // Width, Height, Shift, BRH, Blind
-        [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0], // Flur
-        [ 1.51, 1.42, 4.115, DEFAULT_BRH, 0.0], // Arbeitszimmer
-        [ 1.01, 1.42, 4.115 + 1.51 + 2.74, DEFAULT_BRH, 0.3] // Wohnzimmer
-    ];
-
-    outer_wall(10.49, 0) {
-        window_slots(windows);
-    }
-
-    mirror([0, 1, 0])
-        translate([0,- OUTER_WALL_THICKNESS,0])
-            window_frames(windows);
-}
-
-// Nordseite
-group() {
-    windows = [
-        // Width, Height, Shift, BRH, Blind
-        [ 1.13, 0.635, 1.49, 1.63 ], // HWR
-        [ 0.76, 0.635, 1.49 + 1.13 + 1.24, 1.63 ], // Gäste-WC
-        [ 1.13, 0.635, 1.49 + 1.13 + 1.24 + 0.76 + 0.615, 1.63 ], // Vorratskammer
-        [ 1.13, 0.50, 1.49 + 1.13 + 1.24 + 0.76 + 0.615 + 0.885 + 1.615, 0.95 ] // Küche Festverglasung
-    ];
-
-    outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS) {
-        window_slots(windows);
-    }
-
-    translate([0, 8.615 - OUTER_WALL_THICKNESS,0])
-        window_frames(windows);
-}
 
 // Westseite
 group() horizontal() {
@@ -68,24 +37,7 @@ group() horizontal() {
     }
 }
 
-// Ostseite
-group() horizontal() {
-    windows = [
-        // Width, Height, Shift, BRH, Blind, Subdivisions
-        [ 1.51, 1.42, 1.11, DEFAULT_BRH, 0.0 ], // Wohnzimmer
-        [ 3.01, 2.26, 1.11 + 1.51 + 1.865, 0.065, 0, 2]
-    ];
-
-    // Ostseite
-    outer_wall(8.61, 0, 10.125) {
-        window_slots(windows);
-    }
-
-    translate([0, 10.125,0])
-    window_frames(windows);
-}
-
-}
+}*/
 
 
 // Innenwände
