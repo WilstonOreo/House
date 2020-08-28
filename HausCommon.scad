@@ -32,7 +32,9 @@ PARTS = [
     [ "WINDOW_EDGING", "White" ],
     [ "WINDOW_FRAME", "DimGray" ],
     [ "WINDOW_GLASS", [ 0.5, 0.5, 0.5, 0.3 ] ],
-    [ "WINDOW_BLIND", "White" ]
+    [ "WINDOW_BLIND", "White" ],
+    [ "ROOF_TOP", [0.15,0.15,0.15] ],
+    [ "ROOF_SOLARPANEL", "Black" ]
 ];
 
 
