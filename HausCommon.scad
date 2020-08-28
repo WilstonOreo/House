@@ -60,13 +60,14 @@ module wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT
     }
 }
 
-module outer_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
-    color("Gray") wall(width, OUTER_WALL_THICKNESS, shift_x, shift_y, height) {
-            children();
+module outer_wall(width, height = WALL_HEIGHT, thickness = OUTER_WALL_THICKNESS) {
+    part("OUTER_WALL") difference() {
+        cube([width, thickness, height]);
+        children();
     }
 }
 
-module inner_wall(width, thickness, height = WALL_HEIGHT) {
+module inner_wall(width, height = WALL_HEIGHT, thickness = THICK_INNER_WALL_THICKNESS) {
     part("INNER_WALL") difference() {
         cube([width, thickness, height]);
         children();
@@ -111,12 +112,22 @@ module align(alignment, shift_x, shift_y) {
     }
 } 
 
+module outer_walls(walls, wall_height = WALL_HEIGHT, thickness = OUTER_WALL_THICKNESS) {
+    for (w = walls) {
+        align(alignment = w[0], shift_x = w[2], shift_y = w[3]) {
+            outer_wall(width = w[1],height = wall_height, thickness = thickness) {
+                window_slots(windows= w[4]);
+            }
+            window_frames(windows = w[4]);
+        }
+    }
+}
 
-module inner_walls(walls) {
+module inner_walls(walls, wall_height = WALL_HEIGHT) {
     translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0]) {
         for (w = walls) {
             align(alignment = w[0], shift_x = w[3], shift_y = w[4]) {
-                inner_wall(w[2], thickness = w[1], height = is_undef(w[6]) ? WALL_HEIGHT : w[6]) {
+                inner_wall(w[2], thickness = w[1], height = wall_height) {
                     door_slots(doors = w[5]);
                 }
 
@@ -126,16 +137,6 @@ module inner_walls(walls) {
     }
 }
 
-module outer_walls(walls) {
-    for (w = walls) {
-        align(alignment = w[0], shift_x = w[2], shift_y = w[3]) {
-            outer_wall(w[1],height = is_undef(w[5]) ? WALL_HEIGHT : w[6]) {
-                window_slots(windows= w[4]);
-            }
-            window_frames(windows = w[4]);
-        }
-    }
-}
 
 
 module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
@@ -323,19 +324,10 @@ module rooms(rs) {
     }
 }
 
-
 module part(name) {
     if (is_undef($PART) || $PART == name) {
         color([for (p = PARTS) if (p[0] == name) p[1] ][0]) children();
     }
 }
-
-module horizontal() {
-    Mvert = [ [ 0  , 1  , 0  , 0   ],
-      [ 1  , 0  , 0  , 0   ],
-      [ 0  , 0  , 1  , 0   ],
-      [ 0  , 0  , 0  , 1   ] ] ;
-    multmatrix(Mvert) { children(); }
-} 
 
 

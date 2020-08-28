@@ -1,6 +1,7 @@
 include <HausCommon.scad>;
 
-
+group() {
+    
 windows = [
     // Width, Height, Shift, BRH, Blind
     [ 1.13, 1.42, 0.86, DEFAULT_BRH, 0.0], // Flur
@@ -27,23 +28,15 @@ outer_walls([
 
 
 /*
-
 // Außenwände und Fenster
-
-// Westseite
-group() horizontal() {
-    outer_wall(8.61, 0, 0) {
         door(0.76, 1.0);
-    }
-}
 
 }*/
 
 
 // Innenwände
-group() {
-    doors = [
-        // Width, Shift, Thickness, Height, Angle 
+doors = [
+    // Width, Shift, Thickness, Height, Angle 
         [ 0.885, 1.8, THIN_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
         [ 0.885, 2.0, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
         [ 0.76, 3.5, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
@@ -60,7 +53,6 @@ group() {
         ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135],
         ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135 + 3.765 + 0.175],
     ]);
-}
 
 
 rooms([ 
@@ -80,3 +72,5 @@ rooms([ 
     [ "PARQUETRY", [[3.765, 2.76, 2.135 + 0.175, 0.0]]]
  ]);
 
+
+}

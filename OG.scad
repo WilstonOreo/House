@@ -1,62 +1,55 @@
 include <HausCommon.scad>;
-include <Dach.scad>;
+//include <Dach.scad>;
 
 
-BATHROOM_WIDTH = 2.50;
 
-difference() {
-    translate([0,0, WALL_HEIGHT]) {
-max_wall_height = 4.135;
+translate([0,0, WALL_HEIGHT]) {
+    max_wall_height = 4.135;
+    BATHROOM_WIDTH = 2.50;
 
-// Südseite
-outer_wall(10.49, 0, 0, max_wall_height) {
-    // Fenster Arbeitszimmer
-    window(1.13, 0.86, 1.42);
-}
+    windows = [
+        [1.13, 1.42, 0.86, DEFAULT_BRH, 0.0 ], // Gästezimmer
+        [0.885, 2.26, 3.74, 3.16 - WALL_HEIGHT, undef ], // Fensterband
+        [1.51, 1.72, 0.74, DEFAULT_BRH, 0.0], // Gästezimmer West
+        [1.51, 1.72, 8.61 - 0.74 - 1.51, DEFAULT_BRH, 0.0], // Schlafzimmer
+        [1.51, 0.8, 0.95, 1.60, undef] // Badezimmerfenster
+    ];
 
-thick_inner_wall(6.05 - BATHROOM_WIDTH, 0.0, 2.76, max_wall_height) {
-    door(2.45, 0.9);
+    outer_walls([
+        ["", 10.49, 0, 0, [windows[0]]],
+        ["v", 10.49, 0, 8.615],
+        ["h", 8.61, 0, 0, [for (i = [1:3]) windows[i]]],
+        ["h", 8.61, 0, 10.125]
+    ], max_wall_height);
 
-}
-thick_inner_wall(6.05 - BATHROOM_WIDTH, 0.0, 5.07, max_wall_height) {
-    door(2.45, 0.9);
-}
+    outer_walls([
+        ["h", 8.61, 0, 6.01 + 0.365],
+    ], 1.7, 0.24);
 
-thick_inner_wall(BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365, max_wall_height); 
+    outer_walls([
+        ["h", 3.46, 2.575, 6.01 + 0.365, [windows[4]]],
+    ], 3.0, 0.24);
 
-thick_inner_wall(BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365 - 0.175 + 3.46, max_wall_height); 
+    doors = [
+        [ 0.9, 2.45, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ],
+        [ 0.9, 1.65, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ],
+    ];
 
+    inner_walls([
+        ["", THICK_INNER_WALL_THICKNESS, 6.05 - BATHROOM_WIDTH, 0.0, 2.76, [doors[0]]],
+        ["v", THICK_INNER_WALL_THICKNESS, 6.05 - BATHROOM_WIDTH, 0.0, 5.07, [doors[0]]],
+        ["", THICK_INNER_WALL_THICKNESS, BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365],
+        ["v", THICK_INNER_WALL_THICKNESS, BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365 - 0.175 + 3.46],
+    ], max_wall_height);
 
-horizontal() {
-    // Westseite
-    outer_wall(8.61, 0, 0, max_wall_height) {
-        window(0.885, 3.74, 2.26, 3.16 - WALL_HEIGHT);
-        window(1.51, 0.74, 1.72);
-        window(1.51, 8.615 - 0.74 - 1.51, 1.72);
-    }
-
-    // Ostseite
-    outer_wall(8.61, 0, 10.125, 0.30) {
-    }
-        // Ostseite
-    wall(8.61, 0.24, 0, 6.01 + 0.365, 1.7) {
-    }
-
-        // Ostseite
-    wall(3.46, 0.24, 2.575, 6.01 + 0.365, 3.0) {
-        // Badezimmerfenster
-        window(1.51, 0.95, 0.8, 1.60);
-    }
-    
-    thin_inner_wall(3.46, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH, max_wall_height) {
-        door(1.8, 0.9);
-    }
+    inner_walls([
+        ["h", THIN_INNER_WALL_THICKNESS, 3.46, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH, [doors[1]] ]
+    ], max_wall_height);
 }
 
 
-// Nordseite
-outer_wall(10.49, 0, 8.615 - OUTER_WALL_THICKNESS, max_wall_height) {
-}
+
+
 color("SaddleBrown") group() {
     // Gästezimmer
     ground(6.05 - BATHROOM_WIDTH, 2.76);
@@ -76,16 +69,14 @@ color("White") group() {
      + 0.115, 2.575 - 0.19);
 }
 
-}
 
 
 
-
-
+/*
     translate([0,0, WALL_HEIGHT])
         roof_top(20.0);
 
     translate([0,0, WALL_HEIGHT])
         dormer_top(2.0);
 
-}
+*/
