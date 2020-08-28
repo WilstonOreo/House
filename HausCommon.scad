@@ -87,7 +87,7 @@ module thin_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT
 }
 
 module align(alignment, shift_x, shift_y) {
-    if (alignment == "") {
+    if (alignment == "S") {
        Mvert = [ [ 1  , 0  , 0  , shift_x   ],
                  [ 0  , 1  , 0  , shift_y   ],
                  [ 0  , 0  , 1  , 0   ],
@@ -95,7 +95,7 @@ module align(alignment, shift_x, shift_y) {
           multmatrix(Mvert) children();
     }
 
-    if (alignment == "h") {
+    if (alignment == "W") {
         Mvert = [ [ 0  , 1  , 0  , shift_y   ],
                   [ 1  , 0  , 0  , shift_x   ],
                   [ 0  , 0  , 1  , 0   ],
@@ -103,7 +103,15 @@ module align(alignment, shift_x, shift_y) {
         multmatrix(Mvert) children();
     } 
 
-    if (alignment == "v") {
+    if (alignment == "E") {
+        Mvert = [ [ 0  , -1  , 0  , shift_y   ],
+                  [ 1  , 0  , 0  , shift_x   ],
+                  [ 0  , 0  , 1  , 0   ],
+                  [ 0  , 0  , 0  , 1   ] ] ;              
+        multmatrix(Mvert) children();
+    } 
+
+    if (alignment == "N") {
         Mvert = [ [ 1  , 0  , 0  , shift_x ],
                   [ 0  , -1  , 0  , shift_y   ],
                   [ 0  , 0  , 1  , 0   ],

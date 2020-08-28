@@ -17,13 +17,13 @@ windows = [
 
 outer_walls([
     // Südseite
-    [ "", 10.49, 0.0, 0.0, [for (i = [0:2]) windows[i]]],
+    [ "S", 10.49, 0.0, 0.0, [for (i = [0:2]) windows[i]]],
     // Nordseite
-    [ "v", 10.49, 0, 8.615, [for (i = [3:6]) windows[i]]],
+    [ "N", 10.49, 0, 8.615, [for (i = [3:6]) windows[i]]],
     // Westseite
-    [ "h", 8.61, 0, 0 ],
+    [ "W", 8.61, 0, 0 ],
     // Ostseite
-    [ "h", 8.61, 0, 10.125, [for (i = [7:8]) windows[i]]]
+    [ "E", 8.61, 0, 10.49, [for (i = [7:8]) windows[i]]]
 ]);
 
 
@@ -45,13 +45,13 @@ doors = [
 
     inner_walls([ 
         // Alignment, Thickness, Width, Shift X, Shift Y, List of doors
-        ["", THIN_INNER_WALL_THICKNESS, 3.765 + 0.175 * 2, 2.135, 2.76, [doors[0]]],
-        ["v", THICK_INNER_WALL_THICKNESS, 2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07 + THICK_INNER_WALL_THICKNESS, [doors[1], doors[2]] ],
-        ["h", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135],
-        ["h", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115],
-        ["h", THICK_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615, [doors[3]] ],
-        ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135],
-        ["h", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135 + 3.765 + 0.175],
+        ["S", THIN_INNER_WALL_THICKNESS, 3.765 + 0.175 * 2, 2.135, 2.76, [doors[0]]],
+        ["N", THICK_INNER_WALL_THICKNESS, 2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07 + THICK_INNER_WALL_THICKNESS, [doors[1], doors[2]] ],
+        ["W", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135],
+        ["W", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115],
+        ["W", THICK_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615, [doors[3]] ],
+        ["W", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135],
+        ["W", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135 + 3.765 + 0.175],
     ]);
 
 
