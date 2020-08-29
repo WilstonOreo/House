@@ -1,7 +1,13 @@
 include <HausCommon.scad>;
 
+
+
 module roof_transform(angle = 20.0) {
     translate([-0.36,-0.3,4.13]) rotate([0,angle,0]) children();
+}
+
+module roof_translate() {
+    translate([12.0,0.0,0.0]) mirror([1,0,0]) children();
 }
 
 module dormer_transform(angle = 9.0) {
@@ -11,6 +17,12 @@ module dormer_transform(angle = 9.0) {
 module solar_panel(width = 1.640, height = 0.992) {
     depth = 0.035;
     part("ROOF_SOLARPANEL") cube([width,height,depth]);
+}
+
+module roof_ladder() {
+    for (i = [0:14]) {
+        roof_translate() translate([i*0.3, (i % 2) * 0.2, 0.12]) rotate([0, -20, 0]) cube([0.15, 0.15, 0.05]);
+    }
 }
 
 module roof_solar_panels() {
@@ -77,6 +89,11 @@ module roof() {
     translate([0,0, WALL_HEIGHT]) {
     roof_top() {
         roof_solar_panels();
+
+        part("ROOF_LADDER") {
+            translate([-0.2, 2.35,0.0]) roof_ladder();
+            translate([-0.2, 6.8,0.0]) mirror([0,1,0]) roof_ladder();
+        }
     }
     dormer_top() {
         dormer_solar_panels();
