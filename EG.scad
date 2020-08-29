@@ -4,7 +4,7 @@ module house_door_slot(width = 1.3, height = 2.2, thickness = OUTER_WALL_THICKNE
     translate([0,-thickness*0.5,0]) cube([width, thickness * 2, height]);
 }
 
-module house_door(angle = 90, width = 1.10, height = 2.10, frame_width = 0.12, thickness = OUTER_WALL_THICKNESS) {
+module house_door(angle = 0, width = 1.10, height = 2.10, frame_width = 0.12, thickness = OUTER_WALL_THICKNESS) {
     strength = 0.068;
     f = frame_width - 0.02;
     // Door frame
@@ -14,7 +14,7 @@ module house_door(angle = 90, width = 1.10, height = 2.10, frame_width = 0.12, t
     }
 
     // Door leaf
-    translate([0,strength,0.0]) translate([f,thickness * 0.2,0.0]) rotate([0,0,-85]) {
+    translate([0,strength,0.0]) translate([f,thickness * 0.2,0.0]) rotate([0,0,angle]) {
     part("HOUSEDOOR_LEAF") {
         cube([width, strength, height ]);
         cube([width, 0.11, 0.12]);
