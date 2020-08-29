@@ -62,8 +62,12 @@ module wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT
 }
 
 module outer_wall(width, height = WALL_HEIGHT, thickness = OUTER_WALL_THICKNESS) {
+    part("INNER_WALL") difference() {
+        translate([OUTER_WALL_THICKNESS - 0.05,thickness - 0.05,0]) cube([width - OUTER_WALL_THICKNESS * 2 + 0.1, 0.05, height]);
+        children();
+    }
     part("OUTER_WALL") difference() {
-        cube([width, thickness, height]);
+        cube([width, thickness - 0.05, height]);
         children();
     }
 }
