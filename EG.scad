@@ -14,7 +14,7 @@ module house_door(angle = 90, width = 1.10, height = 2.10, frame_width = 0.12, t
     }
 
     // Door leaf
-    translate([0,strength,0.0]) translate([f,thickness * 0.2,0.0]) rotate([0,0,0]) {
+    translate([0,strength,0.0]) translate([f,thickness * 0.2,0.0]) rotate([0,0,-85]) {
     part("HOUSEDOOR_LEAF") {
         cube([width, strength, height ]);
         cube([width, 0.11, 0.12]);
@@ -42,7 +42,7 @@ module house_door(angle = 90, width = 1.10, height = 2.10, frame_width = 0.12, t
     
 }
 
-group() {
+module first_floor() {
     
 windows = [
     // Width, Height, Shift, BRH, Blind
@@ -71,11 +71,11 @@ outer_walls([
 ]);
 
 rotate([0,0,90])
-translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT*0.5]) house_door_slot();
+translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT]) house_door_slot();
 
 }
 rotate([0,0,90])
-translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT*0.5]) house_door();
+translate([0.8, -OUTER_WALL_THICKNESS *1.3, FLOOR_HEIGHT]) house_door();
 
 
     // Innenwände

@@ -41,7 +41,6 @@ PARTS = [
 ];
 
 
-
 module slot(width, shift, height, z) {
     translate([shift, -OUTER_WALL_THICKNESS*0.05, z])
         cube([width, OUTER_WALL_THICKNESS * 1.1, height]);
@@ -306,6 +305,9 @@ module door_slots(doors, thickness = THICK_INNER_WALL_THICKNESS) {
         door(width = d[0], height= DEFAULT_DOOR_HEIGHT, shift = d[1]);
     }
 }
+
+
+
 
 
 module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
