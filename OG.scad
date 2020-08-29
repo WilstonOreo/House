@@ -1,5 +1,5 @@
 include <HausCommon.scad>;
-include <Dach.scad>;
+//include <Dach.scad>;
 
 
 
@@ -58,7 +58,7 @@ difference() {
         ["PARQUETRY", [[ 1.45, 2.135, 6.05 - BATHROOM_WIDTH - 1.45, 0.175 + 2.76]]], 
 
         // Badezimmer
-        ["TILES", [[BATHROOM_WIDTH - 0.115, 3.46 - 0.175 * 2, 6.05 - BATHROOM_WIDTH + 0.115, 2.575 - 0.19 ]]]
+        ["TILES", [[BATHROOM_WIDTH, 3.46 - 0.175 * 2, 6.05 - BATHROOM_WIDTH, 2.575 - 0.19 ]]]
     ]);
     }
     translate([0,0, WALL_HEIGHT])
