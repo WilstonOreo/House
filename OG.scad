@@ -32,20 +32,20 @@ difference() {
     ], 3.0, 0.24);
 
     doors = [
-        [ 0.9, 2.4, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ],
-        [ 0.9, 1.6, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ],
+        [ 0.9, 2.4, DEFAULT_DOOR_HEIGHT, 0.0 ],
+        [ 0.9, 1.6, DEFAULT_DOOR_HEIGHT, 0.0 ],
     ];
 
     inner_walls([
-        ["S", THICK_INNER_WALL_THICKNESS, 6.05 - BATHROOM_WIDTH, 0.0, 2.76, [doors[0]]],
-        ["N", THICK_INNER_WALL_THICKNESS, 6.05 - BATHROOM_WIDTH, 0.0, 5.07, [doors[0]]],
-        ["S", THICK_INNER_WALL_THICKNESS, BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365],
-        ["N", THICK_INNER_WALL_THICKNESS, BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365 + 3.46],
+        ["S", 6.05 - BATHROOM_WIDTH, 0.0, 2.76, [doors[0]]],
+        ["N", 6.05 - BATHROOM_WIDTH, 0.0, 5.07, [doors[0]]],
+        ["S", BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365],
+        ["N", BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365 + 3.46],
     ], max_wall_height);
 
     inner_walls([
-        ["E", THIN_INNER_WALL_THICKNESS, 3.46, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH, [doors[1]] ]
-    ], max_wall_height);
+        ["E", 3.46, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH, [doors[1]] ]
+    ], max_wall_height, thickness = THIN_INNER_WALL_THICKNESS);
 
     rooms([
         // Gästezimmer

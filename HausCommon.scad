@@ -76,18 +76,6 @@ module inner_wall(width, height = WALL_HEIGHT, thickness = THICK_INNER_WALL_THIC
     }
 }
 
-module thick_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
-    inner_wall(width, 0.175, shift_x, shift_y, height) {
-        children();
-    }
-}
-
-module thin_inner_wall(width, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
-    inner_wall(width, 0.115, shift_x, shift_y, height) {
-        children();
-    }
-}
-
 module align(alignment, shift_x, shift_y) {
     if (alignment == "S") {
        Mvert = [ [ 1  , 0  , 0  , shift_x   ],
@@ -133,15 +121,15 @@ module outer_walls(walls, wall_height = WALL_HEIGHT, thickness = OUTER_WALL_THIC
     }
 }
 
-module inner_walls(walls, wall_height = WALL_HEIGHT) {
+module inner_walls(walls, wall_height = WALL_HEIGHT, thickness = THICK_INNER_WALL_THICKNESS) {
     translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0]) {
         for (w = walls) {
-            align(alignment = w[0], shift_x = w[3], shift_y = w[4]) {
-                inner_wall(w[2], thickness = w[1], height = wall_height) {
-                    door_slots(doors = w[5]);
+            align(alignment = w[0], shift_x = w[2], shift_y = w[3]) {
+                inner_wall(w[1], thickness = thickness, height = wall_height) {
+                    door_slots(doors = w[4], thickness = thickness);
                 }
 
-                door_frames(doors = w[5]);
+                door_frames(doors = w[4], thickness = thickness);
             }
         }
     }
@@ -303,17 +291,17 @@ module door_frame(width, height, thickness, angle = 0.0) {
     }
 }
 
-module door_frames(doors) {
+module door_frames(doors, thickness = THICK_INNER_WALL_THICKNESS) {
     for (d = doors) {
         translate([d[1],0,FLOOR_HEIGHT])
-            door_frame(width = d[0], height = d[3], thickness = d[2], angle = d[4]);
+            door_frame(width = d[0], height = d[2], thickness = thickness, angle = d[3]);
         }
 }
 
-module door_slots(doors) {
+module door_slots(doors, thickness = THICK_INNER_WALL_THICKNESS) {
     for (d = doors) {
         e = EDGING_WIDTH;
-        door(width = d[0], height= d[3], shift = d[1]);
+        door(width = d[0], height= d[2], shift = d[1]);
     }
 }
 

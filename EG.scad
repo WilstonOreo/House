@@ -37,22 +37,25 @@ outer_walls([
 // Innenwände
 doors = [
     // Width, Shift, Thickness, Height, Angle 
-        [ 0.885, 1.8, THIN_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
-        [ 0.885, 2.0, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
-        [ 0.76, 3.5, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
-        [ 0.63, 1.2, THICK_INNER_WALL_THICKNESS, DEFAULT_DOOR_HEIGHT, 0.0 ], // Vorratskammer
+        [ 0.885, 1.8, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
+        [ 0.885, 2.0, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
+        [ 0.76, 3.5, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
+        [ 0.63, 1.2, DEFAULT_DOOR_HEIGHT, 0.0 ], // Vorratskammer
     ];
 
     inner_walls([ 
         // Alignment, Thickness, Width, Shift X, Shift Y, List of doors
-        ["S", THIN_INNER_WALL_THICKNESS, 3.765 + 0.175 * 2, 2.135, 2.76, [doors[0]]],
-        ["N", THICK_INNER_WALL_THICKNESS, 2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07 + THICK_INNER_WALL_THICKNESS, [doors[1], doors[2]] ],
-        ["W", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135],
-        ["W", THIN_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115],
-        ["W", THICK_INNER_WALL_THICKNESS, 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615, [doors[3]] ],
-        ["W", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135],
-        ["W", THICK_INNER_WALL_THICKNESS, 2.76, 0.0, 2.135 + 3.765 + 0.175],
-    ]);
+        ["S", 3.765 + 0.175 * 2, 2.135, 2.76, [doors[0]]],
+        ["W", 2.64, 5.07 + 0.175, 3.135],
+        ["W", 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115],
+    ], thickness = THIN_INNER_WALL_THICKNESS);
+
+    inner_walls([ 
+        ["N", 2.135 + 0.175 + 3.765 + 0.175, 0.0, 5.07 + THICK_INNER_WALL_THICKNESS, [doors[1], doors[2]] ],
+        ["W", 2.64, 5.07 + 0.175, 3.135 + 1.095 + 0.115*2 + 1.615, [doors[3]] ],
+        ["W", 2.76, 0.0, 2.135],
+        ["W", 2.76, 0.0, 2.135 + 3.765 + 0.175],    
+    ], thickness = THICK_INNER_WALL_THICKNESS);
 
 
 rooms([ 
