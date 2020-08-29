@@ -1,5 +1,47 @@
 include <HausCommon.scad>;
 
+module house_door_slot(width = 1.3, height = 2.2, thickness = OUTER_WALL_THICKNESS) {
+    translate([0,-thickness*0.5,0]) cube([width, thickness * 2, height]);
+}
+
+module house_door(angle = 90, width = 1.10, height = 2.10, frame_width = 0.12, thickness = OUTER_WALL_THICKNESS) {
+    strength = 0.068;
+    f = frame_width - 0.02;
+    // Door frame
+    part("HOUSEDOOR_FRAME") translate([0,strength*1.5 + thickness * 0.2,0.0]) difference() {
+        cube([width + f*2, frame_width*2, height + f]);
+        translate([f,-thickness*0.5,0]) cube([width, thickness * 2, height]);
+    }
+
+    // Door leaf
+    translate([0,strength,0.0]) translate([f,thickness * 0.2,0.0]) rotate([0,0,0]) {
+    part("HOUSEDOOR_LEAF") {
+        cube([width, strength, height ]);
+        cube([width, 0.11, 0.12]);
+        // Door handle
+        
+    }
+
+    part("HOUSEDOOR_HANDLE") {
+    handle_length = 0.07;
+        translate([width - 0.18, handle_length + strength, 0.3]) {
+            cylinder(r = 0.02, h = 1.5, $fn = 24);
+
+            translate([0,0,0.3]) {
+                rotate([90,0,0]) cylinder(r = 0.015, h = handle_length, $fn = 24);
+                translate([0,0,0.9]) rotate([90,0,0]) cylinder(r = 0.015, h = handle_length, $fn = 24);
+            }
+        }
+
+        // Door lock
+        translate([width - 0.09, 0.083, 1.0])
+            rotate([90,0,0]) cylinder(r = 0.04, h = 0.02, $fn = 24);
+       
+        }
+    }
+    
+}
+
 group() {
     
 windows = [
@@ -15,6 +57,8 @@ windows = [
     [ 3.01, 2.26, 1.11 + 1.51 + 1.865, 0.065, 0, 2] // Terrassentür
 ];
 
+difference() {
+    
 outer_walls([
     // Südseite
     [ "S", 10.49, 0.0, 0.0, [for (i = [0:2]) windows[i]]],
@@ -25,6 +69,13 @@ outer_walls([
     // Ostseite
     [ "E", 8.61, 0, 10.49, [for (i = [7:8]) windows[i]]]
 ]);
+
+rotate([0,0,90])
+translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT*0.5]) house_door_slot();
+
+}
+rotate([0,0,90])
+translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT*0.5]) house_door();
 
 
     // Innenwände
