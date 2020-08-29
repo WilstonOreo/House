@@ -48,10 +48,6 @@ module window(width, shift, height = 0.54, brh = DEFAULT_BRH) {
     slot(width, shift, height, FLOOR_HEIGHT + brh); 
 }
 
-module door(shift, width = DEFAULT_DOOR_WIDTH, height = DEFAULT_DOOR_HEIGHT) {
-    slot(width, shift, height, FLOOR_HEIGHT);
-}
-
 
 module wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT) {
     translate([shift_x, shift_y, 0]) {
@@ -232,6 +228,11 @@ module window_slots(windows) {
 }
 
 
+module door(shift, width = DEFAULT_DOOR_WIDTH, height = DEFAULT_DOOR_HEIGHT) {
+    slot(width, shift, height, FLOOR_HEIGHT);
+}
+
+
 module door_handle() {
     translate([-0.015*0.5,0,0]) {    
         rotate([0,90,0]) 
@@ -255,12 +256,6 @@ module door_handle() {
         
 module door_frame(width, height, thickness, angle = 0.0) {
     door_thickness = 0.05;
-    if (is_undef(height)) {
-        height = DEFAULT_DOOR_HEIGHT;
-    }
-    if (is_undef(angle)) {
-        angle = 0.0;
-    }
 
     part("DOOR_FRAME") difference() {
         e = DOOR_FRAME_WIDTH;
@@ -294,14 +289,14 @@ module door_frame(width, height, thickness, angle = 0.0) {
 module door_frames(doors, thickness = THICK_INNER_WALL_THICKNESS) {
     for (d = doors) {
         translate([d[1],0,FLOOR_HEIGHT])
-            door_frame(width = d[0], height = d[2], thickness = thickness, angle = d[3]);
+            door_frame(width = d[0], height = DEFAULT_DOOR_HEIGHT, thickness = thickness, angle = d[2]);
         }
 }
 
 module door_slots(doors, thickness = THICK_INNER_WALL_THICKNESS) {
     for (d = doors) {
         e = EDGING_WIDTH;
-        door(width = d[0], height= d[2], shift = d[1]);
+        door(width = d[0], height= DEFAULT_DOOR_HEIGHT, shift = d[1]);
     }
 }
 

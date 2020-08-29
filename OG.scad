@@ -32,8 +32,8 @@ difference() {
     ], 3.0, 0.24);
 
     doors = [
-        [ 0.9, 2.4, DEFAULT_DOOR_HEIGHT, 0.0 ],
-        [ 0.9, 1.6, DEFAULT_DOOR_HEIGHT, 0.0 ],
+        [ 0.9, 2.4, 0.0 ],
+        [ 0.9, 1.6, 0.0 ],
     ];
 
     inner_walls([

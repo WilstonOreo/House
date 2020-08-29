@@ -27,20 +27,13 @@ outer_walls([
 ]);
 
 
-/*
-// Außenwände und Fenster
-        door(0.76, 1.0);
-
-}*/
-
-
-// Innenwände
-doors = [
+    // Innenwände
+    doors = [
     // Width, Shift, Thickness, Height, Angle 
-        [ 0.885, 1.8, DEFAULT_DOOR_HEIGHT, 0.0 ], // Arbeitszimmer
-        [ 0.885, 2.0, DEFAULT_DOOR_HEIGHT, 0.0 ], // HWR
-        [ 0.76, 3.5, DEFAULT_DOOR_HEIGHT, 0.0 ], // Gäste-WC
-        [ 0.63, 1.2, DEFAULT_DOOR_HEIGHT, 0.0 ], // Vorratskammer
+        [ 0.885, 1.8, 0.0 ], // Arbeitszimmer
+        [ 0.885, 2.0, 0.0 ], // HWR
+        [ 0.76, 3.5, 0.0 ], // Gäste-WC
+        [ 0.63, 1.2, 0.0 ], // Vorratskammer
     ];
 
     inner_walls([ 
