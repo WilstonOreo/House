@@ -19,6 +19,8 @@ DOOR_FRAME_WIDTH = 0.08;
 
 BLIND_WIDTH = 0.03;
 
+BATHROOM_WIDTH = 2.50;
+
 PARTS = [
     [ "INNER_WALL", "White" ],
     [ "OUTER_WALL", "Gray" ],
@@ -28,6 +30,7 @@ PARTS = [
     [ "DOOR_LEAF", "White" ], 
     [ "DOOR_FRAME", "White" ],
     [ "DOOR_JOINT", "Gray" ],
+    [ "DOOR_HANDLE", "Gray" ],
     [ "HOUSEDOOR_LEAF", "Sienna" ], 
     [ "HOUSEDOOR_FRAME", "White" ],
     [ "HOUSEDOOR_HANDLE", "Gray" ],
@@ -38,7 +41,8 @@ PARTS = [
     [ "WINDOW_BLIND", "White" ],
     [ "ROOF_TOP", [0.15,0.15,0.15] ],
     [ "ROOF_SOLARPANEL", "Black" ],
-    [ "ROOF_LADDER", "Black" ]
+    [ "ROOF_LADDER", "Black" ],
+    [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ]
 ];
 
 
@@ -63,7 +67,7 @@ module wall(width, thickness, shift_x = 0.0, shift_y = 0.0, height = WALL_HEIGHT
 
 module outer_wall(width, height = WALL_HEIGHT, thickness = OUTER_WALL_THICKNESS) {
     part("INNER_WALL") difference() {
-        translate([OUTER_WALL_THICKNESS - 0.05,thickness - 0.05,0]) cube([width - OUTER_WALL_THICKNESS * 2 + 0.1, 0.05, height]);
+        translate([thickness - 0.05,thickness - 0.05,0]) cube([width - thickness * 2 + 0.1, 0.05, height]);
         children();
     }
     part("OUTER_WALL") difference() {
@@ -119,7 +123,7 @@ module outer_walls(walls, wall_height = WALL_HEIGHT, thickness = OUTER_WALL_THIC
             outer_wall(width = w[1],height = wall_height, thickness = thickness) {
                 window_slots(windows= w[4]);
             }
-            window_frames(windows = w[4]);
+            window_frames(windows = w[4], thickness = thickness);
         }
     }
 }
@@ -219,11 +223,11 @@ module window_frame(width, height, thickness, subdivisions = 1, blind = 0.4) {
     }
 }
 
-module window_frames(windows) {
+module window_frames(windows, thickness = OUTER_WALL_THICKNESS) {
     for (w = windows) {
-        translate([w[2],OUTER_WALL_THICKNESS,w[3]+ FLOOR_HEIGHT])
+        translate([w[2],thickness,w[3]+ FLOOR_HEIGHT])
             mirror([0,1,0])
-            window_frame(width = w[0], height= w[1], thickness = OUTER_WALL_THICKNESS, blind = w[4], subdivisions = w[5]);
+            window_frame(width = w[0], height= w[1], thickness = thickness, blind = w[4], subdivisions = w[5]);
         }
 }
 
