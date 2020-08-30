@@ -43,7 +43,8 @@ PARTS = [
     [ "ROOF_BOTTOM", "White" ],
     [ "ROOF_SOLARPANEL", "Black" ],
     [ "ROOF_LADDER", "Black" ],
-    [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ]
+    [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ],
+    [ "FUNNEL", "DimGray" ]
 ];
 
 

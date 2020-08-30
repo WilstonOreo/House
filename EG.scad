@@ -39,7 +39,30 @@ module house_door(angle = 0, width = 1.10, height = 2.10, frame_width = 0.12, th
        
         }
     }
+}
+
+FUNNEL_WIDTH = 0.6;
+
+module funnel_slot(width = FUNNEL_WIDTH, thickness = OUTER_WALL_THICKNESS * 2) {
+    cube([width, thickness, width], center = true);
+}
+
+module funnel_frame() {
     
+    part("FUNNEL") {
+    border_width = 0.03;
+
+    difference() {
+        funnel_slot(thickness = OUTER_WALL_THICKNESS + border_width);
+        funnel_slot(width = FUNNEL_WIDTH - border_width);
+    }
+
+    blind_width = 0.03;
+
+    for (i = [0:(FUNNEL_WIDTH - border_width*2)  / blind_width]) {
+        translate([0,FUNNEL_WIDTH*0.3,i * (blind_width + 0.002) - FUNNEL_WIDTH/2 + border_width*0.3]) rotate([34,0,0]) cube([FUNNEL_WIDTH,0.01,blind_width], center = true);
+    }
+    }
 }
 
 module first_floor() {
@@ -73,7 +96,19 @@ outer_walls([
 rotate([0,0,90])
 translate([0.8, -OUTER_WALL_THICKNESS, FLOOR_HEIGHT]) house_door_slot();
 
+translate([0,0,1.60]) {
+    translate([0.9,8.43,0]) funnel_slot();
+    translate([OUTER_WALL_THICKNESS*0.5,7.7,0]) rotate([0,0,90]) funnel_slot();
 }
+
+}
+
+translate([0,0,1.60]) {
+    translate([0.9,8.43,0]) funnel_frame();
+    translate([OUTER_WALL_THICKNESS*0.5,7.7,0]) rotate([0,0,90]) funnel_frame();
+}
+
+
 rotate([0,0,90])
 translate([0.8, -OUTER_WALL_THICKNESS *1.3, FLOOR_HEIGHT]) house_door();
 
