@@ -44,7 +44,8 @@ PARTS = [
     [ "ROOF_SOLARPANEL", "Black" ],
     [ "ROOF_LADDER", "Black" ],
     [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ],
-    [ "FUNNEL", "DimGray" ]
+    [ "FUNNEL", "DimGray" ],
+    [ "CHIMNEY", [0.15,0.15,0.15] ]
 ];
 
 
@@ -313,10 +314,6 @@ module door_slots(doors, thickness = THICK_INNER_WALL_THICKNESS) {
     }
 }
 
-
-
-
-
 module ground(width, height, shift_x = 0.0, shift_y = 0.0) {
     translate([OUTER_WALL_THICKNESS + shift_x, OUTER_WALL_THICKNESS + shift_y,0]) {
         cube([width, height, FLOOR_HEIGHT]);
@@ -329,6 +326,33 @@ module rooms(rs) {
             for (g = r[1]) {
                 ground(width = g[0], height = g[1], shift_x = g[2], shift_y = g[3]);
             }
+        }
+    }
+}
+
+module chimney(bottom, top, width = 0.4) {
+    part("CHIMNEY") {
+        translate([6.0, 2.7, 0]) difference() {
+            height = WALL_HEIGHT*2 + 0.6;
+            group() {
+                cube([width, width, height]);
+                translate([-0.04,-0.04,height])
+                    cube([width + 0.08, width + 0.08, 0.08]);
+            }
+
+            translate([width/2, width/2, 0]) cylinder(r = width*0.2, h = height+1.0, $fn = 32);
+
+            translate([-width/2, -width/2, 0]) {
+                if (bottom > 0) {
+                    translate([0,0,-0.1]) cube([width*2,width*2,bottom+0.1]);
+                }
+                if (top > 0) {
+                    translate([0,0,top])
+                        cube([width*2,width*2,10.0]);
+                }
+
+            }
+
         }
     }
 }

@@ -5,7 +5,9 @@ include <HausCommon.scad>;
 module second_floor() {
 
 
-    translate([0,0, WALL_HEIGHT]) difference() { group() {
+    translate([0,0, WALL_HEIGHT]) difference() 
+    { group() 
+    {
     max_wall_height = 4.135;
 
     windows = [
@@ -43,6 +45,8 @@ module second_floor() {
         ["E", 3.46, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH, [doors[1]] ]
     ], max_wall_height, thickness = THIN_INNER_WALL_THICKNESS);
 
+    translate([0,0, -WALL_HEIGHT]) chimney(WALL_HEIGHT, WALL_HEIGHT*2);
+
     rooms([
         // Gästezimmer
         ["PARQUETRY", [[ 6.05 - BATHROOM_WIDTH, 2.76,0,0 ], [BATHROOM_WIDTH, 2.575 - 0.365, 6.05 - BATHROOM_WIDTH,0,0 ]]],
@@ -66,5 +70,8 @@ module second_floor() {
                     cube([12.0, 8.61 + 0.3 + 0.3,8]);
 
 }
+
+    
+
 
 }

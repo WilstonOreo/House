@@ -112,8 +112,8 @@ module roof_solar_panels() {
 module dormer_solar_panels() {
     translate([0.0,0.0,0.16]) {
         for (i = [0:2]) {
-            for (j = [0:3]) {
-                translate([0.1 + j*1.68, 0.5 + i*1.03,0]) solar_panel();
+            for (j = [0:2]) {
+                translate([0.3 + j*1.68, 0.5 + i*1.03,0]) solar_panel();
             }
         }
     }
@@ -152,11 +152,17 @@ module dormer_top(height = 0.15) {
 
 module roof() {     
     translate([0,0, WALL_HEIGHT]) {
+        difference() {
+            translate([0,0, -WALL_HEIGHT]) chimney(WALL_HEIGHT + 1.5, 0.0);
+            roof_transform(offset = -4.0)
+                    cube([12.0, 8.61 + 0.3 + 0.3,4]);
+        }
 
         difference() {
             window = [1.51, 0.8, 0.95, 1.63, undef]; // Badezimmerfenster
 
             group() {
+                
                 translate([0,0,2.4]) {
                     inner_walls([
                         ["S", 6.05 - BATHROOM_WIDTH, 0.0, 2.76],

@@ -65,6 +65,7 @@ module funnel_frame() {
     }
 }
 
+
 module first_floor() {
     
 windows = [
@@ -135,6 +136,9 @@ translate([0.8, -OUTER_WALL_THICKNESS *1.3, FLOOR_HEIGHT]) house_door();
         ["W", 2.76, 0.0, 2.135],
         ["W", 2.76, 0.0, 2.135 + 3.765 + 0.175],    
     ], thickness = THICK_INNER_WALL_THICKNESS);
+
+    chimney(0.0, WALL_HEIGHT);
+
 
 
 rooms([ 
