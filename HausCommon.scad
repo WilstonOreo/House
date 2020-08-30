@@ -40,6 +40,7 @@ PARTS = [
     [ "WINDOW_GLASS", [ 0.5, 0.5, 0.5, 0.3 ] ],
     [ "WINDOW_BLIND", "White" ],
     [ "ROOF_TOP", [0.15,0.15,0.15] ],
+    [ "ROOF_BOTTOM", "White" ],
     [ "ROOF_SOLARPANEL", "Black" ],
     [ "ROOF_LADDER", "Black" ],
     [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ]

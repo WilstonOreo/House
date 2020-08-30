@@ -10,8 +10,8 @@ module roof_translate() {
     translate([12.0,0.0,0.0]) mirror([1,0,0]) children();
 }
 
-module dormer_transform(angle = 9.0) {
-    translate([0.0,-0.25 + 2.575,4.03]) rotate([0,angle,0]) children();
+module dormer_transform(angle = 9.0, offset = 0.0) {
+    translate([0.0,-0.25 + 2.575,4.03]) rotate([0,angle,0]) translate([0.0,0.0,offset]) children();
 }
 
 module solar_panel(width = 1.640, height = 0.992) {
@@ -123,9 +123,14 @@ module dormer_solar_panels() {
 
 module roof_top(height = 0.15, offset = 0.0) {
     difference() {
-        roof_transform(offset = offset) {
-            part("ROOF_TOP") cube([12.0, 8.61 + 0.3 + 0.3,height]);
-            children();
+        union() {
+            roof_transform(offset = offset + 0.02) {
+                part("ROOF_TOP") cube([12.0, 8.61 + 0.3 + 0.3,height - 0.02]);
+                children();
+            }
+            roof_transform(offset = offset) {
+                part("ROOF_BOTTOM") cube([12.0, 8.61 + 0.3 + 0.3,0.02]);
+            }
         }
         translate([0.365 + 0.2,2.575, 1.0]) 
             color("gray") cube([6.0, 3.46, 3.0]);
@@ -133,11 +138,15 @@ module roof_top(height = 0.15, offset = 0.0) {
 }
 
 module dormer_top(height = 0.15) {
+    dormer_transform(offset = 0.02)
+    { 
+        part("ROOF_TOP") cube([7.0, 3.46 + 0.25 + 0.25,height]);
+    }
     dormer_transform()
-        { 
-            part("ROOF_TOP") cube([7.0, 3.46 + 0.25 + 0.25,height]);
-            children();
-        }
+    { 
+        part("ROOF_BOTTOM") cube([7.0, 3.46 + 0.25 + 0.25,0.02]);
+        children();
+    }
 }
 
 
