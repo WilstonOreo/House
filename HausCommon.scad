@@ -24,6 +24,8 @@ BATHROOM_WIDTH = 2.50;
 PARTS = [
     [ "INNER_WALL", "White" ],
     [ "OUTER_WALL", "Gray" ],
+    [ "OUTER_WALL_LAMP", [0.15,0.15,0.15] ],
+    [ "OUTER_WALL_LIGHTBULB", [1.0,1.0,0.6] ],
     [ "PARQUETRY", "SaddleBrown" ],
     [ "TILES", "White" ],
     [ "KITCHEN_TILES", "Orange" ],

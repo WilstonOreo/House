@@ -65,6 +65,31 @@ module funnel_frame() {
     }
 }
 
+module outer_wall_lamp() {
+
+    part("OUTER_WALL_LAMP") {
+        difference() {
+            linear_extrude(height = 0.1, scale = 0.2) 
+                circle(d = 0.25, $fn = 32);
+            translate([0.00, 0.0,-0.01]) linear_extrude(height = 0.11, scale = 0.0) 
+                circle(d = 0.24, $fn = 32);
+        }
+
+        cylinder(d = 0.02, h = 0.2, $fn = 24);
+
+        translate([0,0.0,0.19]) rotate([-90,0,0.0]) {
+            cylinder(d = 0.02, h = 0.2, $fn = 24);
+            translate([0,0.05,0.19]) cylinder(d = 0.18, h = 0.02, $fn = 32);
+        }
+
+        translate([0,0.0,-0.12]) rotate([135,0,0]) rotate([0,90,0])
+            rotate_extrude(angle=45, convexity=10, $fn = 64)
+                translate([0.28, 0.0])
+                    circle(d = 0.02, $fn = 16);
+    }
+
+    part("OUTER_WALL_LIGHTBULB") sphere(r = 0.03, $fn = 32);
+}
 
 module first_floor() {
     
@@ -113,6 +138,13 @@ translate([0,0,1.60]) {
 rotate([0,0,90])
 translate([0.8, -OUTER_WALL_THICKNESS *1.3, FLOOR_HEIGHT]) house_door();
 
+// Lampe Haustür
+translate([-0.21, OUTER_WALL_THICKNESS *1.2, 2.3])rotate([0,0,-90]) 
+    outer_wall_lamp();
+
+// Lampe Terrasse
+translate([10.70, 8.0, 2.3])rotate([0,0,90]) 
+    outer_wall_lamp();
 
     // Innenwände
     doors = [
@@ -160,3 +192,5 @@ rooms([ 
 
 
 }
+
+first_floor();
