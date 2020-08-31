@@ -162,7 +162,6 @@ module roof() {
             window = [1.51, 0.8, 0.95, 1.63, undef]; // Badezimmerfenster
 
             group() {
-                
                 translate([0,0,2.4]) {
                     inner_walls([
                         ["S", 6.05 - BATHROOM_WIDTH, 0.0, 2.76],
@@ -206,3 +205,5 @@ module roof() {
         }
     }
 }
+
+roof();
