@@ -259,6 +259,7 @@ module door(shift, width = DEFAULT_DOOR_WIDTH, height = DEFAULT_DOOR_HEIGHT) {
 
 
 module door_handle() {
+    part("DOOR_HANDLE") {
     translate([-0.015*0.5,0,0]) {    
         rotate([0,90,0]) 
             cylinder(r=0.035,h=0.015, $fn = 16, center = true);
@@ -275,6 +276,7 @@ module door_handle() {
         translate([0.05,0,0]) 
             rotate([90,0,0])
                 cylinder(r=0.015,h=0.12, $fn = 16);
+    }
     }
 }
         
@@ -299,7 +301,7 @@ module door_frame(width, height, thickness, angle = 0.0) {
     }
 
     mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])
-        part("DOOR_HANDLE") {
+        {
             translate([width - 0.08, - door_thickness * 0.4, height*0.5]) {
                 translate([0,  door_thickness * 1.2,0]) mirror([-1,1,0]) door_handle();
                 mirror([0,-1,0]) mirror([1,-1,0]) door_handle();

@@ -37,8 +37,9 @@ module house_door(angle = 0, width = 1.10, height = 2.10, frame_width = 0.12, th
         // Door lock
         translate([width - 0.09, 0.083, 1.0])
             rotate([90,0,0]) cylinder(r = 0.04, h = 0.02, $fn = 24);
-       
         }
+
+        translate([width - 0.1, -0.015, 1.0]) rotate([0,0,270]) door_handle();
     }
 }
 
