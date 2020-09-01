@@ -287,19 +287,20 @@ module door_frame(width, height, thickness, angle = 0.0) {
     }
     
     part("DOOR_LEAF") {
-        mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])    { 
-            color("White") cube([width, 0.03, height + DOOR_FRAME_WIDTH*0.2]);
-            
-            part("DOOR_HANDLE") {
-                translate([width - 0.08, - door_thickness * 0.4, height*0.5]) {
-        
+        mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])
+        { 
+            cube([width, 0.03, height + DOOR_FRAME_WIDTH*0.2]);
+        }
+    }
+
+    mirror([1,0,0]) translate([-width, - 0.01,0])  rotate([0,0,-angle]) translate([0,-DOOR_FRAME_WIDTH*0.3 ,0])
+        part("DOOR_HANDLE") {
+            translate([width - 0.08, - door_thickness * 0.4, height*0.5]) {
                 translate([0,  door_thickness * 1.2,0]) mirror([-1,1,0]) door_handle();
-           mirror([0,-1,0]) mirror([1,-1,0]) door_handle();
+                mirror([0,-1,0]) mirror([1,-1,0]) door_handle();
+            }
         }
-    }
-        }
-    }
-    
+
     part("DOOR_JOINT") {
         translate([width,-0.05,0.3]) cylinder(r = 0.015, h = 0.3, $fn = 32, center = true);
         translate([width,-0.05,height - 0.3]) cylinder(r = 0.015, h = 0.3, $fn = 32, center = true);
