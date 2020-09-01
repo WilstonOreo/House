@@ -1,5 +1,7 @@
 include <HausCommon.scad>;
 
+use <Stairs.scad>;
+
 module house_door_slot(width = 1.3, height = 2.2, thickness = OUTER_WALL_THICKNESS) {
     translate([0,-thickness*0.5,0]) cube([width, thickness * 2, height]);
 }
@@ -19,7 +21,6 @@ module house_door(angle = 0, width = 1.10, height = 2.10, frame_width = 0.12, th
         cube([width, strength, height ]);
         cube([width, 0.11, 0.12]);
         // Door handle
-        
     }
 
     part("HOUSEDOOR_HANDLE") {
@@ -170,6 +171,9 @@ translate([10.70, 8.0, 2.3])rotate([0,0,90])
     ], thickness = THICK_INNER_WALL_THICKNESS);
 
     chimney(0.0, WALL_HEIGHT);
+    
+    translate([OUTER_WALL_THICKNESS,2.53,FLOOR_HEIGHT])
+        stairs();
 
 
 

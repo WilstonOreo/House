@@ -47,7 +47,11 @@ PARTS = [
     [ "ROOF_LADDER", "Black" ],
     [ "ROOF_DOWNPIPE", [0.15, 0.15, 0.15] ],
     [ "FUNNEL", "DimGray" ],
-    [ "CHIMNEY", [0.15,0.15,0.15] ]
+    [ "CHIMNEY", [0.15,0.15,0.15] ],
+    [ "STAIRS_STEPS", "SaddleBrown" ],
+    [ "STAIRS_BARS", "White" ],
+    [ "STAIRS_FRONT", "White" ],
+    [ "STAIRS_HANDRAIL", "SaddleBrown" ]
 ];
 
 

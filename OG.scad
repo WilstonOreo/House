@@ -36,7 +36,7 @@ module second_floor() {
 
     inner_walls([
         ["S", 6.05 - BATHROOM_WIDTH, 0.0, 2.76, [doors[0]]],
-        ["N", 6.05 - BATHROOM_WIDTH, 0.0, 5.07, [doors[0]]],
+        ["N", 6.05 - BATHROOM_WIDTH, 0.0, 5.24, [doors[0]]],
         ["S", BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365],
         ["N", BATHROOM_WIDTH, 6.05 - BATHROOM_WIDTH, 2.575 - 0.365 + 3.46],
     ], max_wall_height);
@@ -55,7 +55,7 @@ module second_floor() {
         ["PARQUETRY", [[ 6.05 - BATHROOM_WIDTH, 2.81, 0, 2.76 + 0.175 + 2.135 ], [BATHROOM_WIDTH, 2.575 - 0.36, 6.05 - BATHROOM_WIDTH, 2.575 + 3.46 - 0.365,0 ]]],
 
         // Galerie    
-        ["PARQUETRY", [[ 1.45, 2.135, 6.05 - BATHROOM_WIDTH - 1.45, 0.175 + 2.76]]], 
+        ["PARQUETRY", [[ 1.2, 2.135, 6.05 - BATHROOM_WIDTH - 1.2, 0.175 + 2.76]]], 
 
         // Badezimmer
         ["TILES", [[BATHROOM_WIDTH, 3.46 - 0.175 * 2, 6.05 - BATHROOM_WIDTH, 2.575 - 0.19 ]]]
