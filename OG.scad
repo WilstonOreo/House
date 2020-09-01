@@ -3,8 +3,6 @@ use <Dach.scad>;
 use <Stairs.scad>;
 
 module second_floor() {
-
-
     translate([0,0, WALL_HEIGHT]) difference() 
     { group() 
     {
@@ -65,8 +63,6 @@ module second_floor() {
 
 
     }
-
-
 
     roof_transform(offset = 0.0)
                     cube([12.0, 8.61 + 0.3 + 0.3,8]);

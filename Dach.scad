@@ -20,7 +20,7 @@ module solar_panel(width = 1.640, height = 0.992) {
 }
 
 module roof_ladder() {
-    for (i = [0:14]) {
+    for (i = [0:17]) {
         roof_translate() translate([i*0.3, (i % 2) * 0.2, 0.19]) rotate([0, 20, 0]) cube([0.15, 0.15, 0.05]);
     }
 }

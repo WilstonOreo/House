@@ -51,7 +51,12 @@ PARTS = [
     [ "STAIRS_STEPS", "SaddleBrown" ],
     [ "STAIRS_BARS", "White" ],
     [ "STAIRS_FRONT", "White" ],
-    [ "STAIRS_HANDRAIL", "SaddleBrown" ]
+    [ "STAIRS_HANDRAIL", "SaddleBrown" ],
+    [ "OUTDOOR_TERRACE", "Gray" ],
+    [ "OUTDOOR_WALK", "Gray" ],
+    [ "OUTDOOR_ENTRY_BOTTOM", "Gray" ],
+    [ "OUTDOOR_ENTRY_MAT", "DimGray" ],
+    [ "OUTDOOR_GARDEN", [0.0, 0.3, 0.0] ]
 ];
 
 
