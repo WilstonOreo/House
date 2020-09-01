@@ -1,6 +1,6 @@
 include <HausCommon.scad>;
 use <Dach.scad>;
-    
+use <Stairs.scad>;
 
 module second_floor() {
 
@@ -55,11 +55,13 @@ module second_floor() {
         ["PARQUETRY", [[ 6.05 - BATHROOM_WIDTH, 2.81, 0, 2.76 + 0.175 + 2.135 ], [BATHROOM_WIDTH, 2.575 - 0.36, 6.05 - BATHROOM_WIDTH, 2.575 + 3.46 - 0.365,0 ]]],
 
         // Galerie    
-        ["PARQUETRY", [[ 1.2, 2.135, 6.05 - BATHROOM_WIDTH - 1.2, 0.175 + 2.76]]], 
+        ["PARQUETRY", [[ 1.2, 2.135, 6.05 - BATHROOM_WIDTH - 1.28, 0.175 + 2.76]]], 
 
         // Badezimmer
         ["TILES", [[BATHROOM_WIDTH, 3.46 - 0.175 * 2, 6.05 - BATHROOM_WIDTH, 2.575 - 0.19 ]]]
     ]);
+
+    translate([6.05 - BATHROOM_WIDTH - 0.91, 4.505, FLOOR_HEIGHT - 0.073]) rotate([0,0,-90]) stairs_gallery_balustrade(1.14);
 
 
     }
